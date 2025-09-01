@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="10dp"
+    android:layout_marginBottom="10dp"
+    android:background="@android:drawable/editbox_background">
+
+    <TextView
+        android:id="@+id/tv_sample_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="No Urut Sampel: X"
+        android:textStyle="bold"
+        android:textSize="18sp"/>
+
+    <TextView
+        android:id="@+id/tv_m_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Mulai VSEN25.M: -"
+        android:layout_marginTop="8dp"/>
+    <TextView
+        android:id="@+id/tv_m_end"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Selesai VSEN25.M: -" />
+
+    <TextView
+        android:id="@+id/tv_kp_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Mulai VSEN25.KP: -"
+        android:layout_marginTop="4dp"/>
+    <TextView
+        android:id="@+id/tv_kp_end"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Selesai VSEN25.KP: -" />
+
+    <TextView
+        android:id="@+id/tv_inti_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Mulai VSERUTI25.INTI: -"
+        android:layout_marginTop="4dp"/>
+    <TextView
+        android:id="@+id/tv_inti_end"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Selesai VSERUTI25.INTI: -" />
+
+    <TextView
+        android:id="@+id/tv_koordinat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Koordinat: -"
+        android:layout_marginTop="8dp"
+        android:textStyle="italic"/>
+
+</LinearLayout>

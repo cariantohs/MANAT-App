@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/pendataanFragment"
+            android:icon="@android:drawable/ic_menu_edit"
+            android:title="Pendataan" />
+        <item
+            android:id="@+id/rekapitulasiFragment"
+            android:icon="@android:drawable/ic_menu_agenda"
+            android:title="Rekapitulasi" />
+        <item
+            android:id="@+id/konsepFragment"
+            android:icon="@android:drawable/ic_menu_help"
+            android:title="Konsep &amp; Definisi" />
+    </group>
+    <item android:title="Akun">
+        <menu>
+            <item
+                android:id="@+id/nav_logout"
+                android:icon="@android:drawable/ic_menu_revert"
+                android:title="Logout" />
+        </menu>
+    </item>
+</menu>

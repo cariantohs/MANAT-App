@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "596583099932",
+    "firebase_url": "https://aplikasi-manat-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "aplikasi-manat",
+    "storage_bucket": "aplikasi-manat.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:596583099932:android:f1c5edb587355ddd9ef9d9",
+        "android_client_info": {
+          "package_name": "com.survei.manat"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBR4CQw8MUUnLTnPDUuKKm5cGzMVsBOoJg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

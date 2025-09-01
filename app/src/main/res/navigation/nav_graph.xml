@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/pendataanFragment">
+
+    <fragment
+        android:id="@+id/pendataanFragment"
+        android:name="com.survei.manat.PendataanFragment"
+        android:label="Pendataan"
+        tools:layout="@layout/fragment_pendataan" />
+    <fragment
+        android:id="@+id/rekapitulasiFragment"
+        android:name="com.survei.manat.RekapitulasiFragment"
+        android:label="Rekapitulasi"
+        tools:layout="@layout/fragment_rekapitulasi" />
+    <fragment
+        android:id="@+id/konsepFragment"
+        android:name="com.survei.manat.KonsepFragment"
+        android:label="Konsep &amp; Definisi"
+        tools:layout="@layout/fragment_konsep" />
+</navigation>

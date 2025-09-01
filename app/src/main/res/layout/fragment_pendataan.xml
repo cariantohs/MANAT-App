@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="SUSENAS SEPTEMBER 2025"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_wilayah_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Wilayah: Memuat..."
+            android:textStyle="italic" />
+
+        <ProgressBar
+            android:id="@+id/progress_bar_pendataan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Pilih Kunjungan Ke-"
+            android:layout_marginTop="16dp"/>
+        <Spinner
+            android:id="@+id/spinner_kunjungan"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:padding="8dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Pilih No Urut Sampel"
+            android:layout_marginTop="8dp"/>
+        <Spinner
+            android:id="@+id/spinner_sample_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:padding="8dp" />
+
+        <TextView
+            android:id="@+id/tv_m_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Mulai VSEN25.M: -" />
+        <Button
+            android:id="@+id/btn_start_m"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Ambil Waktu Mulai VSEN25.M" />
+        <TextView
+            android:id="@+id/tv_m_end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Selesai VSEN25.M: -" />
+        <Button
+            android:id="@+id/btn_end_m"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Ambil Waktu Selesai VSEN25.M"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tv_kp_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="Mulai VSEN25.KP: -" />
+        <Button
+            android:id="@+id/btn_start_kp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Ambil Waktu Mulai VSEN25.KP"
+            android:visibility="gone" />
+        <TextView
+            android:id="@+id/tv_kp_end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Selesai VSEN25.KP: -" />
+        <Button
+            android:id="@+id/btn_end_kp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Ambil Waktu Selesai VSEN25.KP"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tv_inti_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="Mulai VSERUTI25.INTI: -" />
+        <Button
+            android:id="@+id/btn_start_inti"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Ambil Waktu Mulai VSERUTI25.INTI"
+            android:visibility="gone" />
+        <TextView
+            android:id="@+id/tv_inti_end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Selesai VSERUTI25.INTI: -" />
+        <Button
+            android:id="@+id/btn_end_inti"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Ambil Waktu Selesai VSERUTI25.INTI"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/btn_save"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="SIMPAN"
+            android:layout_marginTop="24dp"
+            android:visibility="gone"
+            android:backgroundTint="@android:color/holo_green_dark"/>
+
+    </LinearLayout>
+</ScrollView>
