@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.MANATApp.Splash" parent="Theme.SplashScreen">
+        <!-- Background color for splash screen -->
+        <item name="windowSplashScreenBackground">@color/splash_screen_background</item>
+        
+        <!-- Animated icon for splash screen -->
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_launcher_foreground</item>
+        
+        <!-- Duration of animation in milliseconds -->
+        <item name="windowSplashScreenAnimationDuration">1000</item>
+        
+        <!-- Theme to use after splash screen exits -->
+        <item name="postSplashScreenTheme">@style/Theme.MANATApp</item>
+    </style>
+</resources>

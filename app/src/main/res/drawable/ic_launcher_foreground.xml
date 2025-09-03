@@ -1,0 +1,7 @@
+<!-- Alternatif: gunakan mipmap jika drawable tidak tersedia -->
+<style name="Theme.MANATApp.Splash" parent="Theme.SplashScreen">
+    <item name="windowSplashScreenBackground">@color/splash_screen_background</item>
+    <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher_round</item>
+    <item name="windowSplashScreenAnimationDuration">1000</item>
+    <item name="postSplashScreenTheme">@style/Theme.MANATApp</item>
+</style>

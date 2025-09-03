@@ -7,6 +7,8 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
+import com.google.firebase.auth.FirebaseAuthInvalidUserException
 
 class LoginActivity : AppCompatActivity() {
 
@@ -17,6 +19,13 @@ class LoginActivity : AppCompatActivity() {
         setContentView(R.layout.activity_login)
 
         auth = FirebaseAuth.getInstance()
+
+        // Cek jika user sudah login, langsung arahkan ke SplashActivity
+        if (auth.currentUser != null) {
+            startActivity(Intent(this, SplashActivity::class.java))
+            finish()
+            return
+        }
 
         val etEmail = findViewById<EditText>(R.id.et_email)
         val etPassword = findViewById<EditText>(R.id.et_password)
@@ -31,17 +40,33 @@ class LoginActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
+            // Tampilkan progress indicator (jika ada)
+            // progressBar.visibility = View.VISIBLE
+
             auth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this) { task ->
+                    // progressBar.visibility = View.GONE
+                    
                     if (task.isSuccessful) {
                         Toast.makeText(this, "Login Berhasil!", Toast.LENGTH_SHORT).show()
                         // Arahkan ke SplashActivity untuk pengecekan peran
                         startActivity(Intent(this, SplashActivity::class.java))
                         finish()
                     } else {
-                        Toast.makeText(this, "Login Gagal: ${task.exception?.message}", Toast.LENGTH_LONG).show()
+                        // Penanganan error yang lebih spesifik
+                        val errorMessage = when (task.exception) {
+                            is FirebaseAuthInvalidUserException -> "Akun tidak ditemukan."
+                            is FirebaseAuthInvalidCredentialsException -> "Email atau password salah."
+                            else -> "Login Gagal: ${task.exception?.message}"
+                        }
+                        Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show()
                     }
                 }
         }
+    }
+
+    override fun onBackPressed() {
+        // Mencegah user kembali ke activity sebelumnya jika sudah di login screen
+        moveTaskToBack(true)
     }
 }

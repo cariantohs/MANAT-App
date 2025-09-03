@@ -1,22 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout_dashboard"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".DashboardActivity">
+    tools:context=".DashboardActivity"
+    tools:openDrawer="start">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar_dashboard"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <FrameLayout
-        android:id="@+id/dashboard_fragment_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar_dashboard"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
 
-</LinearLayout>
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/dashboard_nav_host_fragment"
+            android:name="androidx.navigation.fragment.NavHostFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:defaultNavHost="true"
+            app:navGraph="@navigation/dashboard_nav_graph" />
+
+    </LinearLayout>
+
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/nav_view_dashboard"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        app:headerLayout="@layout/nav_header"
+        app:menu="@menu/dashboard_drawer_menu" />
+
+</androidx.drawerlayout.widget.DrawerLayout>

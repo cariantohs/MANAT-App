@@ -39,9 +39,8 @@
         <Spinner
             android:id="@+id/spinner_kunjungan"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:padding="8dp" />
+            android:layout_height="48dp"
+            android:layout_marginTop="4dp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -51,9 +50,8 @@
         <Spinner
             android:id="@+id/spinner_sample_id"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:padding="8dp" />
+            android:layout_height="48dp"
+            android:layout_marginTop="4dp" />
 
         <TextView
             android:id="@+id/tv_m_start"
@@ -127,11 +125,29 @@
             android:visibility="gone" />
 
         <Button
+            android:id="@+id/btn_take_photo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Ambil Foto Pendataan"
+            android:layout_marginTop="24dp"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/iv_photo_preview"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginTop="8dp"
+            android:scaleType="centerCrop"
+            android:background="#E0E0E0"
+            android:visibility="gone"
+            android:contentDescription="Preview Foto Pendataan" />
+        <Button
             android:id="@+id/btn_save"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="SIMPAN"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="16dp"
             android:visibility="gone"
             android:backgroundTint="@android:color/holo_green_dark"/>
 

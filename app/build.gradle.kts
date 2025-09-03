@@ -1,8 +1,8 @@
 plugins {
-    id("com.android.application")
-    id("org.jetbrains.kotlin.android")
-    id("com.google.gms.google-services")
-    id("kotlin-parcelize")
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.google.gms.google.services)
+    alias(libs.plugins.kotlin.parcelize)
 }
 
 android {
@@ -16,34 +16,95 @@ android {
         versionCode = 1
         versionName = "1.0"
     }
+
     buildTypes {
         release {
             isMinifyEnabled = false
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
     }
+
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
+
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "17"
+    }
+
+    buildFeatures {
+        viewBinding = true
+    }
+
+    packagingOptions {
+        resources {
+            excludes += setOf(
+                "META-INF/DEPENDENCIES",
+                "META-INF/LICENSE",
+                "META-INF/LICENSE.txt",
+                "META-INF/license.txt",
+                "META-INF/NOTICE",
+                "META-INF/NOTICE.txt",
+                "META-INF/notice.txt",
+                "META-INF/ASL2.0",
+                "META-INF/*.md",
+                "META-INF/INDEX.LIST"
+            )
+        }
     }
 }
 
 dependencies {
-    implementation("androidx.core:core-ktx:1.13.1")
-    implementation("androidx.appcompat:appcompat:1.7.0")
-    implementation("com.google.android.material:material:1.12.0")
+    implementation(libs.osmdroid.android)
+    implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.material)
 
-    implementation(platform("com.google.firebase:firebase-bom:33.1.2"))
-    implementation("com.google.firebase:firebase-auth")
-    implementation("com.google.firebase:firebase-database")
+    // Firebase
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.auth)
+    implementation(libs.firebase.database)
 
-    implementation("com.google.android.gms:play-services-location:21.3.0")
+    // Lokasi
+    implementation(libs.play.services.location)
 
-    implementation("androidx.navigation:navigation-fragment-ktx:2.7.7")
-    implementation("androidx.navigation:navigation-ui-ktx:2.7.7")
+    // Navigasi
+    implementation(libs.androidx.navigation.fragment.ktx)
+    implementation(libs.androidx.navigation.ui.ktx)
 
-    implementation("androidx.recyclerview:recyclerview:1.3.2")
-    implementation("org.osmdroid:osmdroid-android:6.1.18")
+    // UI Tambahan
+    implementation(libs.androidx.recyclerview)
+    implementation(libs.androidx.cardview)
+    implementation(libs.androidx.preference.ktx)
+
+    // Google API Client & Drive API
+    implementation(libs.google.api.client.android) {
+        exclude(group = "org.apache.httpcomponents")
+    }
+    implementation(libs.google.apis.drive) {
+        exclude(group = "org.apache.httpcomponents")
+    }
+    implementation(libs.google.http.client.gson)
+    
+    // Tambahkan dependensi auth untuk Google APIs
+    implementation(libs.google.auth.library.oauth2.http)
+    
+    // Kotlin Coroutines
+    implementation(libs.kotlinx.coroutines.android)
+    
+    // Tambahkan dependensi untuk camera
+    implementation(libs.androidx.camera.camera2)
+    implementation(libs.androidx.camera.lifecycle)
+    implementation(libs.androidx.camera.view)
+    
+    // Tambahkan dependensi untuk lifecycle
+    implementation(libs.androidx.lifecycle.livedata.ktx)
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
+
+    // Splash Screen API
+    implementation(libs.androidx.core.splashscreen)
 }

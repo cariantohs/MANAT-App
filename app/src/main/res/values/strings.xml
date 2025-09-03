@@ -2,4 +2,6 @@
     <string name="app_name">MANAT</string>
     <string name="open_nav">Open navigation drawer</string>
     <string name="close_nav">Close navigation drawer</string>
+    <string name="firebase_database_url">https://your-project-id.firebaseio.com</string>
+    <string name="firebase_project_id">your-project-id</string>
 </resources>

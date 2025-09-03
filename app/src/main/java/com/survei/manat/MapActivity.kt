@@ -3,6 +3,7 @@ package com.survei.manat
 import android.os.Build
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.preference.PreferenceManager
 import com.survei.manat.data.MapPoint
 import org.osmdroid.config.Configuration
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
@@ -16,8 +17,7 @@ class MapActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // Konfigurasi osmdroid (penting!)
-        Configuration.getInstance().load(applicationContext, getSharedPreferences("osmdroid", MODE_PRIVATE))
+        Configuration.getInstance().load(applicationContext, PreferenceManager.getDefaultSharedPreferences(applicationContext))
 
         setContentView(R.layout.activity_map)
 
@@ -28,20 +28,17 @@ class MapActivity : AppCompatActivity() {
         val mapController = mapView.controller
         mapController.setZoom(12.0)
 
-        // Ambil data koordinat dari Intent
         val mapPoints = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             intent.getParcelableArrayListExtra("map_points", MapPoint::class.java)
         } else {
             @Suppress("DEPRECATION")
-            intent.getParcelableArrayListExtra("map_points")
+            intent.getParcelableArrayListExtra<MapPoint>("map_points")
         }
 
         if (!mapPoints.isNullOrEmpty()) {
-            // Pusatkan peta pada titik pertama
             val centerPoint = GeoPoint(mapPoints[0].latitude, mapPoints[0].longitude)
             mapController.setCenter(centerPoint)
 
-            // Tambahkan marker untuk setiap titik
             for (point in mapPoints) {
                 val marker = Marker(mapView)
                 marker.position = GeoPoint(point.latitude, point.longitude)
@@ -50,12 +47,11 @@ class MapActivity : AppCompatActivity() {
                 mapView.overlays.add(marker)
             }
         } else {
-            // Jika tidak ada data, pusatkan di Danau Toba
             val defaultCenter = GeoPoint(2.62, 98.78)
             mapController.setCenter(defaultCenter)
         }
 
-        mapView.invalidate() // Refresh peta
+        mapView.invalidate()
     }
 
     override fun onResume() {

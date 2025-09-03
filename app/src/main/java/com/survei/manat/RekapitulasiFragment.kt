@@ -3,7 +3,6 @@ package com.survei.manat
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -50,11 +49,7 @@ class RekapitulasiFragment : Fragment() {
         scrollView = view.findViewById(R.id.scroll_view_rekap)
 
         val currentUser = auth.currentUser
-        Log.d("RekapitulasiFragment", "Fragment dibuat. Mencoba memuat data untuk UID: ${currentUser?.uid}")
-
-        if (currentUser == null) {
-            return
-        }
+        if (currentUser == null) return
 
         database = FirebaseDatabase.getInstance().reference.child("surveys").child(currentUser.uid)
 
@@ -66,30 +61,45 @@ class RekapitulasiFragment : Fragment() {
         fetchDataOnce()
     }
 
+    private fun setupInitialLayout() {
+        val inflater = LayoutInflater.from(context)
+        rekapContainer.removeAllViews() 
+        sampleViews.clear()
+        
+        // Cukup tambahkan judul utama, tidak perlu mengakses isinya di sini
+        val titleView = inflater.inflate(R.layout.item_rekapitulasi_title, rekapContainer, false)
+        rekapContainer.addView(titleView)
+
+        for (i in 1..10) {
+            val sampleView = inflater.inflate(R.layout.item_rekapitulasi, rekapContainer, false)
+            val sampleTitle = sampleView.findViewById<TextView>(R.id.tv_sample_title)
+            sampleTitle.text = "No Urut Sampel: $i"
+            val sampleId = "SAMPEL_$i"
+            sampleViews[sampleId] = sampleView
+            rekapContainer.addView(sampleView)
+        }
+    }
+    
     private fun fetchDataOnce() {
         database.get().addOnSuccessListener { snapshot ->
-            if (!isAdded) return@addOnSuccessListener
-            updateUI(snapshot)
-            attachRealtimeListener()
-        }.addOnFailureListener { error ->
-            if (!isAdded) return@addOnFailureListener
-            progressBar.visibility = View.GONE
-            scrollView.visibility = View.GONE
-            tvStatus.text = "Gagal memuat data. Periksa koneksi internet Anda."
-            tvStatus.visibility = View.VISIBLE
+            if (isAdded) {
+                updateUI(snapshot)
+                attachRealtimeListener()
+            }
+        }.addOnFailureListener {
+            if (isAdded) {
+                progressBar.visibility = View.GONE
+                tvStatus.text = "Gagal memuat data. Periksa koneksi."
+                tvStatus.visibility = View.VISIBLE
+            }
         }
     }
     
     private fun attachRealtimeListener() {
-        if (dataListener != null) {
-            database.removeEventListener(dataListener!!)
-        }
         dataListener = object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                if (!isAdded) return
-                updateUI(snapshot)
+                if (isAdded) updateUI(snapshot)
             }
-
             override fun onCancelled(error: DatabaseError) {
                 Log.e("RekapitulasiFragment", "Listener realtime dibatalkan.", error.toException())
             }
@@ -123,7 +133,6 @@ class RekapitulasiFragment : Fragment() {
             val tvKoordinat = sampleView.findViewById<TextView>(R.id.tv_koordinat)
 
             if (snapshot.hasChild(sampleId)) {
-                // Ambil data dari kunjungan terakhir
                 val lastKunjunganKey = snapshot.child(sampleId).children.lastOrNull()?.key
                 if (lastKunjunganKey != null) {
                     val session = snapshot.child(sampleId).child(lastKunjunganKey).getValue(SurveySession::class.java)
@@ -159,31 +168,13 @@ class RekapitulasiFragment : Fragment() {
             }
         }
     }
-
-    private fun setupInitialLayout() {
-        val inflater = LayoutInflater.from(context)
-        rekapContainer.removeAllViews()
-        sampleViews.clear()
-        
-        val titleView = inflater.inflate(R.layout.item_rekapitulasi_title, rekapContainer, false)
-        rekapContainer.addView(titleView)
-
-        for (i in 1..10) {
-            val sampleView = inflater.inflate(R.layout.item_rekapitulasi, rekapContainer, false)
-            val sampleTitle = sampleView.findViewById<TextView>(R.id.tv_sample_title)
-            sampleTitle.text = "No Urut Sampel: $i"
-            val sampleId = "SAMPEL_$i"
-            sampleViews[sampleId] = sampleView
-            rekapContainer.addView(sampleView)
-        }
-    }
     
     private fun setupCopyListener(view: View, fullText: String) {
         view.setOnLongClickListener {
             val clipboard = context?.getSystemService(Context.CLIPBOARD_SERVICE) as? ClipboardManager
             val clip = ClipData.newPlainText("Data Rekapitulasi Sampel", fullText)
             clipboard?.setPrimaryClip(clip)
-            Toast.makeText(context, "Data sampel disalin ke clipboard!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "Data sampel disalin!", Toast.LENGTH_SHORT).show()
             true
         }
     }

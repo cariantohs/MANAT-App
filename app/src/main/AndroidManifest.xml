@@ -4,9 +4,14 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" tools:ignore="ScopedStorage" />
-
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" tools:ignore="ScopedStorage" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    
+    <uses-feature android:name="android.hardware.camera" android:required="true" />
+    <uses-feature android:name="android.hardware.location.gps" android:required="true" />
 
     <application
         android:allowBackup="true"
@@ -17,21 +22,72 @@
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/Theme.MANATApp"
-        tools:targetApi="31">
+        android:usesCleartextTraffic="true"
+        tools:targetApi="31"
+        tools:ignore="GoogleAppIndexingWarning">
 
+        <!-- Splash Activity - Launcher -->
         <activity
             android:name=".SplashActivity"
-            android:exported="true">
+            android:exported="true"
+            android:theme="@style/Theme.MANATApp">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <activity android:name=".MainActivity" android:exported="true" />
-        <activity android:name=".LoginActivity" android:exported="true" />
-        <activity android:name=".DashboardActivity" android:exported="false" />
-        <activity android:name=".MapActivity" android:exported="false" />
+        <!-- Login Activity -->
+        <activity
+            android:name=".LoginActivity"
+            android:exported="true"
+            android:theme="@style/Theme.MANATApp"
+            android:screenOrientation="portrait" />
+
+        <!-- Main Activity -->
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:theme="@style/Theme.MANATApp"
+            android:screenOrientation="portrait"
+            android:launchMode="singleTask" />
+
+        <!-- Dashboard Activity -->
+        <activity
+            android:name=".DashboardActivity"
+            android:exported="false"
+            android:theme="@style/Theme.MANATApp"
+            android:screenOrientation="portrait" />
+
+        <!-- Map Activity -->
+        <activity
+            android:name=".MapActivity"
+            android:exported="false"
+            android:theme="@style/Theme.MANATApp"
+            android:screenOrientation="portrait" />
+
+        <!-- Photo Activity -->
+        <activity
+            android:name=".PhotoActivity"
+            android:exported="false"
+            android:theme="@style/Theme.MANATApp"
+            android:screenOrientation="portrait" />
+
+        <!-- File Provider untuk camera -->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
+        <!-- Google Play Services (diperlukan untuk Firebase dan Location Services) -->
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
 
     </application>
 </manifest>

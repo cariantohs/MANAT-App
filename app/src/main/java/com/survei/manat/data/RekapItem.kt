@@ -4,5 +4,6 @@ data class RekapItem(
     val sampleId: String,
     val status: String,
     val durationInMinutes: Long?,
-    val coordinate: LocationData?
+    val coordinate: LocationData?,
+    val fullSession: SurveySession?
 )

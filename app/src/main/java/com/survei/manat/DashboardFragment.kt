@@ -6,17 +6,20 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.Button
+import android.widget.ProgressBar
+import android.widget.Spinner
+import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
 import com.survei.manat.adapter.RekapAdapter
-import com.survei.manat.data.LocationData
 import com.survei.manat.data.MapPoint
 import com.survei.manat.data.RekapItem
 import com.survei.manat.data.SurveySession
@@ -96,7 +99,6 @@ class DashboardFragment : Fragment() {
                         tvStatus.text = "Tidak ada petugas yang diawasi."
                         return@addOnSuccessListener
                     }
-                    // Ambil data untuk setiap bawahan
                     usersRef.get().addOnSuccessListener { allUsersSnapshot ->
                         val filteredPetugas = allUsersSnapshot.children.filter { it.key in bawahanUids }
                         processPetugasList(filteredPetugas)
@@ -148,6 +150,7 @@ class DashboardFragment : Fragment() {
     
     private fun loadSurveyDataForPetugas(petugasUid: String) {
         progressBar.visibility = View.VISIBLE
+        tvStatus.visibility = View.GONE
         rekapList.clear()
         mapPoints.clear()
         rekapAdapter.notifyDataSetChanged()
@@ -156,7 +159,8 @@ class DashboardFragment : Fragment() {
         surveyRef.get().addOnSuccessListener { snapshot ->
             if (!snapshot.exists()) {
                 progressBar.visibility = View.GONE
-                Toast.makeText(context, "Petugas ini belum memiliki data.", Toast.LENGTH_SHORT).show()
+                tvStatus.visibility = View.VISIBLE
+                tvStatus.text = "Petugas ini belum memiliki data."
                 btnShowMap.visibility = View.GONE
                 return@addOnSuccessListener
             }
@@ -164,7 +168,6 @@ class DashboardFragment : Fragment() {
             snapshot.children.forEach { sampleSnapshot ->
                 val sampleId = sampleSnapshot.key ?: "Unknown Sample"
                 var latestKunjungan: DataSnapshot? = null
-                // Cari kunjungan terakhir
                 for (i in 5 downTo 1) {
                     if (sampleSnapshot.hasChild("kunjungan_$i")) {
                         latestKunjungan = sampleSnapshot.child("kunjungan_$i")
@@ -174,21 +177,23 @@ class DashboardFragment : Fragment() {
 
                 if (latestKunjungan != null) {
                     val session = latestKunjungan.getValue(SurveySession::class.java)
-                    if (session?.endTimeInti != null && session.startTimeM != null) {
-                        // Data Selesai
-                        val duration = (session.endTimeInti - session.startTimeM) / (1000 * 60)
-                        rekapList.add(RekapItem(sampleId, "Selesai", duration, session.locationStartM))
-                        session.locationStartM?.let { loc ->
-                            if (loc.latitude != null && loc.longitude != null) {
-                                mapPoints.add(MapPoint(loc.latitude, loc.longitude, sampleId))
+                    if (session != null) {
+                        if (session.endTimeInti != null && session.startTimeM != null) {
+                            val duration = (session.endTimeInti - session.startTimeM) / (1000 * 60)
+                            // --- PERBAIKAN DI SINI ---
+                            rekapList.add(RekapItem(sampleId, "Selesai", duration, session.locationStartM, session))
+                            session.locationStartM?.let { loc ->
+                                if (loc.latitude != null && loc.longitude != null) {
+                                    mapPoints.add(MapPoint(loc.latitude, loc.longitude, sampleId))
+                                }
                             }
-                        }
-                    } else {
-                        // Data Belum Selesai
-                        rekapList.add(RekapItem(sampleId, "Dalam Pengerjaan", null, session?.locationStartM))
-                        session?.locationStartM?.let { loc ->
-                             if (loc.latitude != null && loc.longitude != null) {
-                                mapPoints.add(MapPoint(loc.latitude, loc.longitude, sampleId))
+                        } else {
+                            // --- PERBAIKAN DI SINI ---
+                            rekapList.add(RekapItem(sampleId, "Dalam Pengerjaan", null, session.locationStartM, session))
+                            session.locationStartM?.let { loc ->
+                                 if (loc.latitude != null && loc.longitude != null) {
+                                    mapPoints.add(MapPoint(loc.latitude, loc.longitude, sampleId))
+                                }
                             }
                         }
                     }
@@ -196,6 +201,8 @@ class DashboardFragment : Fragment() {
             }
             rekapAdapter.notifyDataSetChanged()
             progressBar.visibility = View.GONE
+            tvStatus.visibility = if (rekapList.isEmpty()) View.VISIBLE else View.GONE
+            tvStatus.text = if (rekapList.isEmpty()) "Tidak ada data survei." else ""
             btnShowMap.visibility = if (mapPoints.isNotEmpty()) View.VISIBLE else View.GONE
         }
     }
